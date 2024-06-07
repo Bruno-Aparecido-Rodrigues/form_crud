@@ -8,7 +8,7 @@ import com.example.form_crud.roomDB.Pessoa
 import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
 
-class PessoaViewModel(private val repository: Repository): ViewModel() {
+class PessoaViewModel(private val repository: Repository): ViewModel() { //vai criar a função para executar os comando do pessoadao no mainAct
     fun getPessoa() = repository.getAllPessoa().asLiveData(viewModelScope.coroutineContext)
 
     fun upsertPessoa(pessoa: Pessoa) {

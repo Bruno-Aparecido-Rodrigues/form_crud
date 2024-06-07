@@ -43,7 +43,7 @@ import com.example.form_crud.ui.theme.Form_crudTheme
 import com.example.form_crud.viewModel.PessoaViewModel
 
 class MainActivity : ComponentActivity() {
-    private val db by lazy {
+    private val db by lazy { //criação do banco dentro da aplicação
         Room.databaseBuilder(
             applicationContext,
             PessoaDataBase::class.java,
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
         ).build()
     }
 
-    private val viewModel by viewModels<PessoaViewModel>(
+    private val viewModel by viewModels<PessoaViewModel>( //criação da classe de modelagem
         factoryProducer = {
             object :ViewModelProvider.Factory{
                 override fun <T: ViewModel> create(modelClass: Class<T>): T{
@@ -79,7 +79,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(viewModel: PessoaViewModel, mainActivity: MainActivity) {
-    var nome by remember {
+    var nome by remember { //criando as váriaveis a ser colocadas no banco
         mutableStateOf("")
     }
 
@@ -87,12 +87,12 @@ fun App(viewModel: PessoaViewModel, mainActivity: MainActivity) {
         mutableStateOf("")
     }
 
-    val pessoa = Pessoa(
+    val pessoa = Pessoa( //instanciando a classe pessoa do banco e definido suas variávies no mainAct
         nome,
         telefone
     )
 
-    var pessoaList by remember {
+    var pessoaList by remember { //vai armazenar os dados da classe pessoa em um array
         mutableStateOf(listOf<Pessoa>())
     }
 
@@ -100,7 +100,7 @@ fun App(viewModel: PessoaViewModel, mainActivity: MainActivity) {
         pessoaList = it
     }
 
-    Column(
+    Column( //background da page
         Modifier
             .background(Color.White)
     ) {
@@ -109,88 +109,88 @@ fun App(viewModel: PessoaViewModel, mainActivity: MainActivity) {
                 .fillMaxWidth(),
             Arrangement.Center
         ) {
-            Text(
+            Text( //texto com o título do app
                 text = "App Cadastro Cliente",
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp
             )
         }
-        Row(
+        Row( //espaçadores
             Modifier
                 .padding(20.dp)
         ) {
 
         }
-        Row(
+        Row( //centralização
             Modifier
                 .fillMaxWidth(),
             Arrangement.Center
         ) {
-            TextField(
+            TextField( // caixa de texto do campo nome
                 value = nome,
                 onValueChange = { nome = it },
                 label = { Text(text = "Nome:") }
             )
         }
-        Row(
+        Row( //espaçadores
             Modifier
                 .padding(20.dp)
         ) {
 
         }
-        Row(
+        Row( //cewntralização
             Modifier
                 .fillMaxWidth(),
             Arrangement.Center
         ) {
-            TextField(
+            TextField( //caixa de texto do campo telefone
                 value = telefone,
                 onValueChange = { telefone = it },
                 label = { Text(text = "Telefone:") }
             )
         }
-        Row(
+        Row( //espaçamento e centralização do botão
             Modifier
                 .fillMaxWidth()
                 .padding(20.dp),
             Arrangement.Center
         ) {
-            Button(
+            Button( //criação do botão de cadastro
                 onClick = {
                     viewModel.upsertPessoa(pessoa)
                 }
-            ) {
+            ) { //texto do botão
                 Text(text = "Cadastrar")
             }
         }
-        Divider()
+        Divider()//divisória
         LazyColumn {
-            items(pessoaList) { pessoa ->
+            items(pessoaList) { pessoa -> //vai criar uma lista com todos os clientes
                 Row(
                     Modifier
-                        .clickable {
+                        .clickable { //ao clickar no campo exibido na tela o mesmo será deletado
                             viewModel.deletePessoa(pessoa)
                         }
-                        .fillMaxWidth(),
-                    Arrangement.Center
+                        .fillMaxWidth(), //vai ocupar todo os lados
+                    Arrangement.Center //vai alinhar ao centro
                 ) {
                     Column(
                         Modifier
                             .fillMaxWidth(0.5f),
                         Arrangement.Center
-                    ) {
+                    ) {//exibição do nome da pessoa
                         Text(text = "${pessoa.nome}")
                     }
                     Column(
                         Modifier
                             .fillMaxWidth(0.5f),
                         Arrangement.Center
-                    ) {
+                    ) {//exibição do telefone da pessoa
                         Text(text = "${pessoa.telefone}")
                     }
                 }
-                Divider()
+                Divider()//divisor
             }
         }
     }

@@ -1,6 +1,7 @@
 import com.example.form_crud.roomDB.Pessoa
 import com.example.form_crud.roomDB.PessoaDataBase
 
+//mescla os comandos sql com os dados e executa os comandos
 
 class Repository (private val db:PessoaDataBase){
     suspend fun upsertPessoa(pessoa: Pessoa){
